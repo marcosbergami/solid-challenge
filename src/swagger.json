@@ -1,0 +1,272 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "User Registration API Documentation",
+        "description": "This is an API to manage users in a system.",
+        "version": "1.0.0",
+        "contact": {
+            "email": "marcos@mogri.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["Users"],
+                "summary": "This request will create a new user",
+                "requestBody": {
+                    "description": "Required fields to create a new user.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Marcos",
+                                    "email": "marcos@mydomain.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "Marcos Bergami"
+
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }                                                                                                                                                                                                     
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "This email is already registered. Please select a different email."
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Users"],
+                "summary": "This request will list all users inside of the application",
+                "description": "Prior to listing all of the users, this route will verify if the request is coming from an admin.",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "header",
+                        "description": "ID of the **admin** user",
+                        "required": true,
+                        "schema": {
+                            "properties" : {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "Marcos Bergami"
+
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }                                                                                                                                                                                                 
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request" 
+                    }
+                }
+            }
+        },
+        "/users/{user_id}" : {
+            "get": {
+                "tags": ["Users"],
+                "summary": "This request will list the profile of the used passed as a route param",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "properties" : {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean"
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "Marcos Bergami"
+
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }                                                                                                                                                                                                 
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description" : "A user with the provided information was not found."
+                    }
+                }
+            }            
+        },
+        "/users/{user_id}/admin" : {
+            "patch": {
+                "tags": ["Users"],
+                "summary": "This request will turn a user into an admin",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "schema": {
+                            "properties" : {
+                                "id": {
+                                    "type": "string",
+                                    "format": "uuid"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string",
+                                            "format": "uuid"
+                                        },
+                                        "admin": {
+                                            "type": "boolean",
+                                            "default": true
+                                        },
+                                        "name": {
+                                            "type": "string",
+                                            "default": "Marcos Bergami"
+
+                                        },
+                                        "email": {
+                                            "type": "string",
+                                            "format": "email"
+                                        },
+                                        "created_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        },
+                                        "updated_at": {
+                                            "type": "string",
+                                            "format": "date-time"
+                                        }                                                                                                                                                                                                 
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description" : "A user with the provided information was not found."
+                    }
+                }
+            }            
+        }        
+    }
+}
